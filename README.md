@@ -124,7 +124,30 @@ VaultWarden port 8080 is exposed.
 version: '3.9'
 
 services:
-...
+
+  vaultwarden:
+    image: registry.conarx.tech/containers/vaultwarden
+    environment:
+      - VAULTWARDEN_DATABASE_TYPE=mysql
+      - MYSQL_HOST=mariadb-server
+      - MYSQL_DATABASE=vaultwarden
+      - MYSQL_USER=vaultwarden
+      - MYSQL_PASSWORD=vaultwarden
+    volumes:
+      - ./data/vaultwarden:/var/lib/vaultwarden
+    networks:
+      - external
+
+  mariadb-server:
+    image: registry.conarx.tech/containers/mariadb
+    environment:
+      - MYSQL_DATABASE=vaultwarden
+      - MYSQL_USER=vaultwarden
+      - MYSQL_PASSWORD=vaultwarden
+    volumes:
+      - ./data/mariadb:/var/lib/mysql
+    networks:
+      - external
 
 networks:
   internal:
