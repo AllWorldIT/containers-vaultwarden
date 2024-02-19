@@ -223,6 +223,7 @@ COPY usr/local/share/flexible-docker-containers/healthcheck.d/42-vaultwarden.sh 
 COPY usr/local/share/flexible-docker-containers/init.d/42-vaultwarden.sh /usr/local/share/flexible-docker-containers/init.d
 COPY usr/local/share/flexible-docker-containers/pre-init-tests.d/42-vaultwarden.sh /usr/local/share/flexible-docker-containers/pre-init-tests.d
 COPY usr/local/share/flexible-docker-containers/tests.d/42-vaultwarden.sh /usr/local/share/flexible-docker-containers/tests.d
+COPY usr/local/share/flexible-docker-containers/tests.d/99-vaultwarden.sh /usr/local/share/flexible-docker-containers/tests.d
 COPY usr/local/bin/start-vaultwarden /usr/local/bin/start-vaultwarden
 RUN set -eux; \
 	true "Flexible Docker Containers"; \
