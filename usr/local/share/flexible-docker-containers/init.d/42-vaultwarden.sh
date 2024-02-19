@@ -33,8 +33,8 @@ fdc_notice "Initializing VaultWarden settings"
 
 if [ -n "$VAULTWARDEN_ADMIN_TOKEN" ]; then
 	# shellcheck disable=SC2016
-	if ! echo "$VAULTWARDEN_ADMIN_TOKEN" | grep -q '\$argon2'; then
-		fdc_error "Environment variable 'VAULTWARDEN_ADMIN_TOKEN' not set!"
+	if ! echo "$VAULTWARDEN_ADMIN_TOKEN" | grep -q 'argon2'; then
+		fdc_error "Environment variable 'VAULTWARDEN_ADMIN_TOKEN' is not encrypted!"
 		false
 	fi
 fi
@@ -94,7 +94,7 @@ case "$VAULTWARDEN_DATABASE_TYPE" in
 	sqlite)
 		export VAULTWARDEN_DATABASE_URL=/var/lib/vaultwarden/vaultwarden.db
 		;;
-		
+
 	*)
 		# If we're running in FDC_CI mode, we can just skip the error as we default to 'dev-file'
 		if [ -n "$FDC_CI" ]; then
