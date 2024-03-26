@@ -25,8 +25,8 @@ FROM registry.conarx.tech/containers/alpine/edge as builder
 ENV VAULTWARDEN_VER=1.30.5
 
 # NK: Take note of the versions!!!
-ENV BITWARDEN_WEB_VER=2024.1.2
-ENV VAULTWARDEN_WEB_VER=2024.1.2b
+ENV BITWARDEN_WEB_VER=2024.3.0
+ENV VAULTWARDEN_WEB_VER=2024.3.0
 
 ENV RUST_VER=1.76.0
 
