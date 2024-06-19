@@ -25,9 +25,11 @@ FROM registry.conarx.tech/containers/alpine/edge as builder
 ENV VAULTWARDEN_VER=1.30.5
 
 # NK: Take note of the versions!!!
-# https://github.com/dani-garcia/bw_web_builds/blob/master/Dockerfile
-ENV BITWARDEN_WEB_VER=2024.5.0
-ENV VAULTWARDEN_WEB_VER=2024.5.0
+# https://github.com/dani-garcia/bw_web_builds/blob/master/Dockerfile#L29
+ENV BITWARDEN_WEB_VER=2024.5.1
+ENV BITWARDEN_WEB_PATCH_VER=2024.5.0
+# https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L21
+ENV VAULTWARDEN_WEB_VER=2024.5.1
 
 ENV RUST_VER=1.76.0
 
@@ -129,7 +131,7 @@ RUN set -eux; \
 	ls -la;\
 	tar -C "bw_web_builds-$VAULTWARDEN_WEB_VER/resources/src" -c . | tar -C "clients-web-v$BITWARDEN_WEB_VER/apps/web/src" -x; \
 	cd "clients-web-v$BITWARDEN_WEB_VER"; \
-	patch --forward --strip=1 < "../bw_web_builds-$VAULTWARDEN_WEB_VER/patches/v$BITWARDEN_WEB_VER.patch"; \
+	patch --forward --strip=1 < "../bw_web_builds-$VAULTWARDEN_WEB_VER/patches/v$BITWARDEN_WEB_PATCH_VER.patch"; \
 	# Fixes
 	sed -i -e 's/{{ "versionNumber" | i18n: version }}//' "apps/web/src/app/layouts/frontend-layout.component.html"; \
 	# Set much longer timeouts so we don't fail
