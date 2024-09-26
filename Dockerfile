@@ -94,7 +94,12 @@ RUN set -eux; \
 	mkdir libmysqlclient; \
 	cd libmysqlclient; \
 	ar -x /usr/lib/libmysqlclient.a; \
-	ar -x /lib/libz.a; \
+	if [ -e /usr/lib/libz.a ]; then \
+		LIBZ_PATH=/usr/lib/libz.a; \
+	else \
+		LIBZ_PATH=/lib/libz.a; \
+	fi; \
+	ar -x $LIBZ_PATH; \
 	ar -qc libmysqlclient.a  *.o; \
 	cat libmysqlclient.a > /usr/lib/libmysqlclient.a; \
 	cd ..
