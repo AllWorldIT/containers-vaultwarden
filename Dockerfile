@@ -22,7 +22,7 @@
 FROM registry.conarx.tech/containers/alpine/edge as builder
 
 
-ENV VAULTWARDEN_VER=1.32.0
+ENV VAULTWARDEN_VER=1.32.1
 
 # NK: Take note of the versions!!!
 # https://github.com/dani-garcia/bw_web_builds/blob/master/Dockerfile#L29
@@ -31,7 +31,8 @@ ENV BITWARDEN_WEB_PATCH_VER=2024.6.2
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L21
 ENV VAULTWARDEN_WEB_VER=2024.6.2c
 
-ENV RUST_VER=1.80.0
+# https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L39
+ENV RUST_VER=1.81.0
 
 
 
@@ -94,7 +95,12 @@ RUN set -eux; \
 	mkdir libmysqlclient; \
 	cd libmysqlclient; \
 	ar -x /usr/lib/libmysqlclient.a; \
-	ar -x /lib/libz.a; \
+	if [ -e /usr/lib/libz.a ]; then \
+		LIBZ_PATH=/usr/lib/libz.a; \
+	else \
+		LIBZ_PATH=/lib/libz.a; \
+	fi; \
+	ar -x $LIBZ_PATH; \
 	ar -qc libmysqlclient.a  *.o; \
 	cat libmysqlclient.a > /usr/lib/libmysqlclient.a; \
 	cd ..
