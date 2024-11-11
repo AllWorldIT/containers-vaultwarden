@@ -22,7 +22,7 @@
 FROM registry.conarx.tech/containers/alpine/edge as builder
 
 
-ENV VAULTWARDEN_VER=1.32.3
+ENV VAULTWARDEN_VER=1.32.4
 
 # NK: Take note of the versions!!!
 # https://github.com/dani-garcia/bw_web_builds/blob/master/Dockerfile#L29
@@ -86,8 +86,8 @@ RUN set -eux; \
 	mkdir libpq; \
 	cd libpq; \
 	ar -x /usr/lib/libpq.a; \
-	ar -x /usr/lib/libpgcommon.a; \
-	ar -x /usr/lib/libpgport.a; \
+	ar -x /usr/lib/libpgcommon_shlib.a; \
+	ar -x /usr/lib/libpgport_shlib.a; \
 	ar -qc libpq.a  *.o; \
 	cat libpq.a > /usr/lib/libpq.a; \
 	cd ..; \
