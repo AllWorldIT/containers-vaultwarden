@@ -86,8 +86,8 @@ RUN set -eux; \
 	mkdir libpq; \
 	cd libpq; \
 	ar -x /usr/lib/libpq.a; \
-	ar -x /usr/lib/libpgcommon.a; \
-	ar -x /usr/lib/libpgport.a; \
+	ar -x /usr/lib/libpgcommon_shlib.a; \
+	ar -x /usr/lib/libpgport_shlib.a; \
 	ar -qc libpq.a  *.o; \
 	cat libpq.a > /usr/lib/libpq.a; \
 	cd ..; \
