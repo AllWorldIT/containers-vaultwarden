@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024, AllWorldIT.
+# Copyright (c) 2022-2025, AllWorldIT.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to
@@ -19,7 +19,7 @@
 # IN THE SOFTWARE.
 
 
-FROM registry.conarx.tech/containers/alpine/3.20 as builder
+FROM registry.conarx.tech/containers/alpine/3.21 as builder
 
 
 ENV VAULTWARDEN_VER=1.32.7
@@ -86,8 +86,8 @@ RUN set -eux; \
 	mkdir libpq; \
 	cd libpq; \
 	ar -x /usr/lib/libpq.a; \
-	ar -x /usr/lib/libpgcommon.a; \
-	ar -x /usr/lib/libpgport.a; \
+	ar -x /usr/lib/libpgcommon_shlib.a; \
+	ar -x /usr/lib/libpgport_shlib.a; \
 	ar -qc libpq.a  *.o; \
 	cat libpq.a > /usr/lib/libpq.a; \
 	cd ..; \
@@ -199,14 +199,14 @@ RUN set -eux; \
 
 
 
-FROM registry.conarx.tech/containers/postfix/3.20
+FROM registry.conarx.tech/containers/postfix/3.21
 
 
 ARG VERSION_INFO=
 
-LABEL org.opencontainers.image.authors   "Nigel Kukard <nkukard@conarx.tech>"
-LABEL org.opencontainers.image.version   "3.20"
-LABEL org.opencontainers.image.base.name "registry.conarx.tech/containers/postfix/3.20"
+LABEL org.opencontainers.image.authors   = "Nigel Kukard <nkukard@conarx.tech>"
+LABEL org.opencontainers.image.version   = "3.21"
+LABEL org.opencontainers.image.base.name = "registry.conarx.tech/containers/postfix/3.21"
 
 
 # Copy in built binaries
