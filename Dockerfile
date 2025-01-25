@@ -22,14 +22,14 @@
 FROM registry.conarx.tech/containers/alpine/edge as builder
 
 
-ENV VAULTWARDEN_VER=1.32.7
+ENV VAULTWARDEN_VER=1.33.0
 
 # NK: Take note of the versions!!!
 # https://github.com/dani-garcia/bw_web_builds/blob/master/Dockerfile#L29
-ENV BITWARDEN_WEB_VER=2024.6.2
-ENV BITWARDEN_WEB_PATCH_VER=2024.6.2
+ENV BITWARDEN_WEB_VER=2025.1.1
+ENV BITWARDEN_WEB_PATCH_VER=2025.1.1
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L21
-ENV VAULTWARDEN_WEB_VER=2024.6.2c
+ENV VAULTWARDEN_WEB_VER=2025.1.1
 
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L39
 ENV RUST_VER=1.83.0
