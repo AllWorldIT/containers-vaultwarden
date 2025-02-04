@@ -22,7 +22,7 @@
 FROM registry.conarx.tech/containers/alpine/3.21 as builder
 
 
-ENV VAULTWARDEN_VER=1.33.0
+ENV VAULTWARDEN_VER=1.33.1
 
 # NK: Take note of the versions!!!
 # https://github.com/dani-garcia/bw_web_builds/blob/master/Dockerfile#L29
