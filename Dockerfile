@@ -26,10 +26,10 @@ ENV VAULTWARDEN_VER=1.33.2
 
 # NK: Take note of the versions!!!
 # https://github.com/dani-garcia/bw_web_builds/blob/master/Dockerfile#L29
-ENV BITWARDEN_WEB_VER=2025.1.1
+ENV BITWARDEN_WEB_VER=2025.3.1
 ENV BITWARDEN_WEB_PATCH_VER=2025.1.1
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L21
-ENV VAULTWARDEN_WEB_VER=2025.1.1
+ENV VAULTWARDEN_WEB_VER=2025.3.1
 
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L39
 ENV RUST_VER=1.84.1
@@ -125,6 +125,7 @@ RUN set -eux; \
 		-o "bw_web_builds_$VAULTWARDEN_WEB_VER.tar.gz"; \
 	tar -zxf "bw_web_builds_$VAULTWARDEN_WEB_VER.tar.gz"; \
 	# Download dependencies
+	ls -la; \
 	cd "vaultwarden-$VAULTWARDEN_VER"; \
 	export PATH="/opt/rust/bin:$PATH"; \
 	cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"; \
