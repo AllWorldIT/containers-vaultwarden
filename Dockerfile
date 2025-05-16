@@ -26,13 +26,13 @@ ENV VAULTWARDEN_VER=1.33.2
 
 # NK: Take note of the versions!!!
 # https://github.com/dani-garcia/bw_web_builds/blob/master/Dockerfile#L29
-ENV BITWARDEN_WEB_VER=2025.3.1
-ENV BITWARDEN_WEB_PATCH_VER=2025.1.1
+ENV BITWARDEN_WEB_VER=2025.5.0
+ENV BITWARDEN_WEB_PATCH_VER=2025.5.0
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L21
 ENV VAULTWARDEN_WEB_VER=2025.3.1
 
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L39
-ENV RUST_VER=1.84.1
+ENV RUST_VER=1.86.0
 
 
 
