@@ -114,7 +114,9 @@ RUN set -eux; \
 		-o "vaultwarden-${VAULTWARDEN_VER}.tar.gz"; \
 	tar -zxf "vaultwarden-${VAULTWARDEN_VER}.tar.gz"; \
 	# Grab VaultWarden Web
-	git clone --branch "v${VAULTWARDEN_WEB_VER}" --single-branch https://github.com/vaultwarden/vw_web_builds.git; \
+	curl -L "https://github.com/vaultwarden/vw_web_builds/archive/refs/heads/v${VAULTWARDEN_WEB_VER}.tar.gz" \
+		-o "vw_web_builds-${VAULTWARDEN_WEB_VER}.tar.gz"; \
+	tar -zxf "vw_web_builds-${VAULTWARDEN_WEB_VER}.tar.gz"; \
 	# Download dependencies
 	cd "vaultwarden-$VAULTWARDEN_VER"; \
 	export PATH="/opt/rust/bin:$PATH"; \
@@ -126,9 +128,9 @@ RUN set -eux; \
 # Patch VaultWarden web client
 RUN set -eux; \
 	cd build; \
-	cd "vw_web_builds"; \
+	cd "vw_web_builds-${VAULTWARDEN_WEB_VER}"; \
 	# Fixes
-	sed -i -e 's/{{ "versionNumber" | i18n: version }}//' "apps/web/src/app/layouts/frontend-layout.component.html"; \
+	sed -i -e 's/{{ version }}//' "apps/web/src/app/layouts/frontend-layout.component.html"; \
 	# Set much longer timeouts so we don't fail
 	npm config set fetch-retries 50; \
 	npm config set fetch-retry-mintimeout 120000; \
@@ -157,7 +159,7 @@ RUN set -eux; \
 	cd build; \
 	# Install VaultWarden Web
 	mkdir -p vaultwarden-root/usr/local/share/vaultwarden-web; \
-	cd "vw_web_builds"; \
+	cd "vw_web_builds-${VAULTWARDEN_WEB_VER}"; \
 	cp -R apps/web/build/* "../vaultwarden-root/usr/local/share/vaultwarden-web"; \
 	cd ..; \
 	# Install VaultWarden
