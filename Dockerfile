@@ -22,17 +22,14 @@
 FROM registry.conarx.tech/containers/alpine/3.21 as builder
 
 
-ENV VAULTWARDEN_VER=1.33.2
+ENV VAULTWARDEN_VER=1.34.1
 
 # NK: Take note of the versions!!!
-# https://github.com/dani-garcia/bw_web_builds/blob/master/Dockerfile#L29
-ENV BITWARDEN_WEB_VER=2025.1.1
-ENV BITWARDEN_WEB_PATCH_VER=2025.1.1
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L21
-ENV VAULTWARDEN_WEB_VER=2025.1.1
+ENV VAULTWARDEN_WEB_VER=2025.5.0
 
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L39
-ENV RUST_VER=1.84.1
+ENV RUST_VER=1.86.0
 
 
 
@@ -114,16 +111,10 @@ RUN set -eux; \
 	true "Downloading VaultWarden"; \
 	# Grab VaultWarden
 	curl -L "https://github.com/dani-garcia/vaultwarden/archive/refs/tags/${VAULTWARDEN_VER}.tar.gz" \
-		-o "vaultwarden-$VAULTWARDEN_VER.tar.gz"; \
-	tar -zxf "vaultwarden-$VAULTWARDEN_VER.tar.gz"; \
-	# Grab BitWarden Web
-	curl -L "https://github.com/bitwarden/clients/archive/refs/tags/web-v${BITWARDEN_WEB_VER}.tar.gz" \
-		-o "bw_web_$BITWARDEN_WEB_VER.tar.gz"; \
-	tar -zxf "bw_web_$BITWARDEN_WEB_VER.tar.gz"; \
+		-o "vaultwarden-${VAULTWARDEN_VER}.tar.gz"; \
+	tar -zxf "vaultwarden-${VAULTWARDEN_VER}.tar.gz"; \
 	# Grab VaultWarden Web
-	curl -L "https://github.com/dani-garcia/bw_web_builds/archive/refs/tags/v${VAULTWARDEN_WEB_VER}.tar.gz" \
-		-o "bw_web_builds_$VAULTWARDEN_WEB_VER.tar.gz"; \
-	tar -zxf "bw_web_builds_$VAULTWARDEN_WEB_VER.tar.gz"; \
+	git clone --branch "v${VAULTWARDEN_WEB_VER}" --single-branch https://github.com/vaultwarden/vw_web_builds.git; \
 	# Download dependencies
 	cd "vaultwarden-$VAULTWARDEN_VER"; \
 	export PATH="/opt/rust/bin:$PATH"; \
@@ -132,13 +123,10 @@ RUN set -eux; \
 	npm install cross-env
 
 
-# Patch BitWarden web client
+# Patch VaultWarden web client
 RUN set -eux; \
 	cd build; \
-	ls -la;\
-	tar -C "bw_web_builds-$VAULTWARDEN_WEB_VER/resources/src" -c . | tar -C "clients-web-v$BITWARDEN_WEB_VER/apps/web/src" -x; \
-	cd "clients-web-v$BITWARDEN_WEB_VER"; \
-	patch --forward --strip=1 < "../bw_web_builds-$VAULTWARDEN_WEB_VER/patches/v$BITWARDEN_WEB_PATCH_VER.patch"; \
+	cd "vw_web_builds"; \
 	# Fixes
 	sed -i -e 's/{{ "versionNumber" | i18n: version }}//' "apps/web/src/app/layouts/frontend-layout.component.html"; \
 	# Set much longer timeouts so we don't fail
@@ -148,12 +136,7 @@ RUN set -eux; \
 	if ! npm ci; then \
 		cat /root/.npm/_logs/*.log; \
 		false; \
-	fi
-
-# Build VaultWarden web client
-RUN set -eux; \
-	cd build; \
-	cd "clients-web-v$BITWARDEN_WEB_VER"; \
+	fi; \
 	cd apps/web; \
 	npm run dist:oss:selfhost
 
@@ -174,7 +157,7 @@ RUN set -eux; \
 	cd build; \
 	# Install VaultWarden Web
 	mkdir -p vaultwarden-root/usr/local/share/vaultwarden-web; \
-	cd "clients-web-v$BITWARDEN_WEB_VER"; \
+	cd "vw_web_builds"; \
 	cp -R apps/web/build/* "../vaultwarden-root/usr/local/share/vaultwarden-web"; \
 	cd ..; \
 	# Install VaultWarden
