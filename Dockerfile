@@ -130,8 +130,9 @@ RUN set -eux; \
 	cd build; \
 	cd "vw_web_builds-${VAULTWARDEN_WEB_VER}"; \
 	# Fixes
-	sed -i -e 's/{{ version }}//' "apps/web/src/app/layouts/frontend-layout.component.html"; \
-	cat "apps/web/src/app/layouts/frontend-layout.component.html"; \
+	sed -i -e 's/{{ version }}//' \
+		"apps/web/src/app/layouts/frontend-layout.component.html" \
+		"libs/auth/src/angular/anon-layout/anon-layout.component.html"; \
 	# Set much longer timeouts so we don't fail
 	npm config set fetch-retries 50; \
 	npm config set fetch-retry-mintimeout 120000; \
