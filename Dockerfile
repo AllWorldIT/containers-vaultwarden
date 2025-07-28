@@ -22,11 +22,11 @@
 FROM registry.conarx.tech/containers/alpine/3.22 as builder
 
 
-ENV VAULTWARDEN_VER=1.34.1
+ENV VAULTWARDEN_VER=1.34.2
 
 # NK: Take note of the versions!!!
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L21
-ENV VAULTWARDEN_WEB_VER=2025.5.0
+ENV VAULTWARDEN_WEB_VER=2025.7.0
 
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L39
 ENV RUST_VER=1.86.0
@@ -132,7 +132,7 @@ RUN set -eux; \
 	# Fixes
 	sed -i -e 's/{{ version }}//' \
 		"apps/web/src/app/layouts/frontend-layout.component.html" \
-		"libs/auth/src/angular/anon-layout/anon-layout.component.html"; \
+		"libs/components/src/anon-layout/anon-layout.component.html"; \
 	# Set much longer timeouts so we don't fail
 	npm config set fetch-retries 50; \
 	npm config set fetch-retry-mintimeout 120000; \
