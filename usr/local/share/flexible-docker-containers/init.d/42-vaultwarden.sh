@@ -20,15 +20,6 @@
 # IN THE SOFTWARE.
 
 
-fdc_notice "Setting up VaultWarden permissions"
-# Make sure our data directory perms are correct
-chown root:vaultwarden /var/lib/vaultwarden
-chmod 0770 /var/lib/vaultwarden
-# Set permissions on VaultWarden configuration
-chown root:vaultwarden /etc/vaultwarden
-chmod 0750 /etc/vaultwarden
-
-
 fdc_notice "Initializing VaultWarden settings"
 
 if [ -n "$VAULTWARDEN_ADMIN_TOKEN" ]; then
@@ -126,5 +117,14 @@ export VAULTWARDEN_ROCKET_PORT=8080
 # Write out environment and fix perms of the config file
 
 set | grep -E '^VAULTWARDEN_' | sed -e 's/^VAULTWARDEN_//' > /etc/vaultwarden/vaultwarden.env || true
-chown root:vaultwarden /etc/vaultwarden/vaultwarden.env
+
+
+fdc_notice "Setting up VaultWarden permissions"
+# Make sure our data directory perms are correct
+chown -R root:vaultwarden "$VAULTWARDEN_DATA_FOLDER"
+find "$VAULTWARDEN_DATA_FOLDER" -type d -print0 | xargs -r -0 chmod 0770
+find "$VAULTWARDEN_DATA_FOLDER" -type f -print0 | xargs -r -0 chmod 0660
+# Set permissions on VaultWarden configuration
+chown -R root:vaultwarden /etc/vaultwarden
+chmod 0750 /etc/vaultwarden
 chmod 0640 /etc/vaultwarden/vaultwarden.env
