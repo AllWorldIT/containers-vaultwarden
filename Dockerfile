@@ -22,11 +22,11 @@
 FROM registry.conarx.tech/containers/alpine/edge as builder
 
 
-ENV VAULTWARDEN_VER=1.35.1
+ENV VAULTWARDEN_VER=1.35.2
 
 # NK: Take note of the versions!!!
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L21
-ENV VAULTWARDEN_WEB_VER=2025.12.1
+ENV VAULTWARDEN_WEB_VER=2025.12.1.1
 
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L39
 ENV RUST_VER=1.92.0
@@ -114,7 +114,7 @@ RUN set -eux; \
 		-o "vaultwarden-${VAULTWARDEN_VER}.tar.gz"; \
 	tar -zxf "vaultwarden-${VAULTWARDEN_VER}.tar.gz"; \
 	# Grab VaultWarden Web
-	curl -L "https://github.com/vaultwarden/vw_web_builds/archive/refs/heads/v${VAULTWARDEN_WEB_VER}.tar.gz" \
+	curl -L "https://github.com/vaultwarden/vw_web_builds/archive/refs/tags/v${VAULTWARDEN_WEB_VER}.tar.gz" \
 		-o "vw_web_builds-${VAULTWARDEN_WEB_VER}.tar.gz"; \
 	tar -zxf "vw_web_builds-${VAULTWARDEN_WEB_VER}.tar.gz"; \
 	# Download dependencies
