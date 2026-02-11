@@ -19,7 +19,7 @@
 # IN THE SOFTWARE.
 
 
-FROM registry.conarx.tech/containers/alpine/edge as builder
+FROM registry.conarx.tech/containers/alpine/edge AS builder
 
 
 ENV VAULTWARDEN_VER=1.35.3
@@ -190,9 +190,9 @@ FROM registry.conarx.tech/containers/postfix/edge
 
 ARG VERSION_INFO=
 
-LABEL org.opencontainers.image.authors   = "Nigel Kukard <nkukard@conarx.tech>"
-LABEL org.opencontainers.image.version   = "edge"
-LABEL org.opencontainers.image.base.name = "registry.conarx.tech/containers/postfix/edge"
+LABEL org.opencontainers.image.authors="Nigel Kukard <nkukard@conarx.tech>"
+LABEL org.opencontainers.image.version="edge"
+LABEL org.opencontainers.image.base.name="registry.conarx.tech/containers/postfix/edge"
 
 
 # Copy in built binaries
