@@ -26,7 +26,7 @@ ENV VAULTWARDEN_VER=1.35.3
 
 # NK: Take note of the versions!!!
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L21
-ENV VAULTWARDEN_WEB_VER=2026.1.1
+ENV VAULTWARDEN_WEB_VER=v2026.1.1
 
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L39
 ENV RUST_VER=1.93.0
@@ -108,17 +108,15 @@ RUN set -eux; \
 RUN set -eux; \
 	mkdir -p build; \
 	cd build; \
-	true "Downloading VaultWarden"; \
-	# Grab VaultWarden
-	curl -L "https://github.com/dani-garcia/vaultwarden/archive/refs/tags/${VAULTWARDEN_VER}.tar.gz" \
-		-o "vaultwarden-${VAULTWARDEN_VER}.tar.gz"; \
-	tar -zxf "vaultwarden-${VAULTWARDEN_VER}.tar.gz"; \
-	# Grab VaultWarden Web
-	curl -L "https://github.com/vaultwarden/vw_web_builds/archive/refs/tags/v${VAULTWARDEN_WEB_VER}.tar.gz" \
-		-o "vw_web_builds-${VAULTWARDEN_WEB_VER}.tar.gz"; \
-	tar -zxf "vw_web_builds-${VAULTWARDEN_WEB_VER}.tar.gz"; \
+	true "Cloning VaultWarden"; \
+	# Clone VaultWarden
+	git clone --branch "${VAULTWARDEN_VER}" --depth 1 \
+		https://github.com/dani-garcia/vaultwarden.git; \
+	# Clone VaultWarden Web
+	git clone --branch "${VAULTWARDEN_WEB_VER}" --depth 1 \
+		https://github.com/vaultwarden/vw_web_builds.git; \
 	# Download dependencies
-	cd "vaultwarden-$VAULTWARDEN_VER"; \
+	cd vaultwarden; \
 	export PATH="/opt/rust/bin:$PATH"; \
 	cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"; \
 	# Install cross-env, needed for node
@@ -128,7 +126,7 @@ RUN set -eux; \
 # Patch VaultWarden web client
 RUN set -eux; \
 	cd build; \
-	cd "vw_web_builds-${VAULTWARDEN_WEB_VER}"; \
+	cd vw_web_builds; \
 	# Fixes
 	sed -i -e 's/{{ version }}//' \
 		"apps/web/src/app/layouts/frontend-layout.component.html" \
@@ -148,7 +146,7 @@ RUN set -eux; \
 # Build VaultWarden
 RUN set -eux; \
 	cd build; \
-	cd "vaultwarden-$VAULTWARDEN_VER"; \
+	cd vaultwarden; \
 	\
 	# Set up path to point to our Rust build environment
 	export PATH="/opt/rust/bin:$PATH"; \
@@ -161,12 +159,12 @@ RUN set -eux; \
 	cd build; \
 	# Install VaultWarden Web
 	mkdir -p vaultwarden-root/usr/local/share/vaultwarden-web; \
-	cd "vw_web_builds-${VAULTWARDEN_WEB_VER}"; \
+	cd vw_web_builds; \
 	cp -R apps/web/build/* "../vaultwarden-root/usr/local/share/vaultwarden-web"; \
 	cd ..; \
 	# Install VaultWarden
 	mkdir -p vaultwarden-root/usr/local/bin; \
-	cd "vaultwarden-$VAULTWARDEN_VER"; \
+	cd vaultwarden; \
 	cp target/release/vaultwarden "../vaultwarden-root/usr/local/bin"; \
 	cd ..; \
 	# Create directories
