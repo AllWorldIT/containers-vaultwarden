@@ -19,7 +19,7 @@
 # IN THE SOFTWARE.
 
 
-FROM registry.conarx.tech/containers/alpine/3.22 as builder
+FROM registry.conarx.tech/containers/alpine/3.22 AS builder
 
 
 ENV VAULTWARDEN_VER=1.35.3
@@ -190,9 +190,9 @@ FROM registry.conarx.tech/containers/postfix/3.22
 
 ARG VERSION_INFO=
 
-LABEL org.opencontainers.image.authors   = "Nigel Kukard <nkukard@conarx.tech>"
-LABEL org.opencontainers.image.version   = "3.22"
-LABEL org.opencontainers.image.base.name = "registry.conarx.tech/containers/postfix/3.22"
+LABEL org.opencontainers.image.authors="Nigel Kukard <nkukard@conarx.tech>"
+LABEL org.opencontainers.image.version="3.22"
+LABEL org.opencontainers.image.base.name="registry.conarx.tech/containers/postfix/3.22"
 
 
 # Copy in built binaries
