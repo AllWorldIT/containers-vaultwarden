@@ -22,7 +22,7 @@
 FROM registry.conarx.tech/containers/alpine/edge AS builder
 
 
-ENV VAULTWARDEN_VER=1.35.5
+ENV VAULTWARDEN_VER=1.35.6
 
 # NK: Take note of the versions!!!
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L21
