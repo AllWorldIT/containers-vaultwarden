@@ -22,14 +22,14 @@
 FROM registry.conarx.tech/containers/alpine/3.22 AS builder
 
 
-ENV VAULTWARDEN_VER=1.35.4
+ENV VAULTWARDEN_VER=1.35.5
 
 # NK: Take note of the versions!!!
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L21
-ENV VAULTWARDEN_WEB_VER=v2026.1.1
+ENV VAULTWARDEN_WEB_VER=v2026.2.0
 
 # https://github.com/dani-garcia/vaultwarden/blob/main/docker/Dockerfile.debian#L39
-ENV RUST_VER=1.93.1
+ENV RUST_VER=1.94.1
 
 
 
